@@ -12,6 +12,6 @@ server:
     Access-Control-Expose-Headers: "X-Total-Count"
 
 database: # for database see (configure database section)
-  dbname: goTest
+  dbname: users_db
   connection: mongodb://127.0.0.1:27017
 

@@ -79,6 +79,7 @@ func StartSpider() {
 	star := time.Now()
 	defer ants.Release()
 
+	log.Println("开始执行爬虫：获取所有分类")
 	// 获取所有分类
 	Categories := SpiderOKCategories()
 

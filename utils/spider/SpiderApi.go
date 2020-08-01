@@ -1,9 +1,10 @@
 package spider
 
 import (
-	"context"
 	"log"
+	"movie_spider/config"
 	"movie_spider/database"
+	"movie_spider/model"
 	"movie_spider/utils"
 	"regexp"
 	"runtime"
@@ -16,7 +17,13 @@ import (
 	"github.com/panjf2000/ants/v2"
 	"github.com/spf13/viper"
 	"github.com/valyala/fasthttp"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
+// 爬取网站的域名，如访问不了，以下几个域名建议重复替换使用
+//const host = "http://www.jisudhw.com"
+//const host = "http://www.okzy.co"
+//const host = "http://www.okzyw.com"
 
 const ApiHost = "https://api.okzy.tv/api.php/provide/vod"
 const AcList = "list"
@@ -113,11 +120,14 @@ func initFastHttp() FastHttp {
 }
 
 func StartApi() {
+	log.Println("开始执行爬虫...")
 	list(1)
 }
 
 func list(pg int) {
 	// 执行时间标记
+	log.Println(pg)
+	log.Println("执行爬虫 开始 list...")
 	startTime := time.Now()
 	defer ants.Release()
 	antPool, _ := ants.NewPool(100)
@@ -177,7 +187,7 @@ func actionList(subCategoryId string, pg int, pageCount int) {
 
 		req.Header.SetMethod("GET")
 
-		log.Println("当前page"+strconv.Itoa(j), url, pageCount)
+		// log.Println("当前page"+strconv.Itoa(j), url, pageCount)
 
 		RandomUserAgent := RandomUserAgent()
 		req.Header.SetBytesKV([]byte("User-Agent"), []byte(RandomUserAgent))
@@ -334,7 +344,7 @@ func Detail(id string, retry int) {
 	}
 	listDetail := nav.List[0]
 
-	_moviesInfo := make(map[string]interface{})
+	var _moviesInfo model.Movie
 
 	var kuyunAry []map[string]string
 
@@ -373,25 +383,29 @@ func Detail(id string, retry int) {
 		Smutex.Unlock()
 	}
 
-	kuyunAryJson, _ := utils.Json.MarshalIndent(kuyunAry, "", " ")
-	ckm3u8AryJson, _ := utils.Json.MarshalIndent(ckm3u8Ary, "", " ")
-	downloadAryJson, _ := utils.Json.MarshalIndent(downloadAry, "", " ")
+	// log.Println(listDetail)
 
 	link := `/?m=vod-detail-id-` + strconv.Itoa(listDetail.VodId) + `.html`
-	_moviesInfo["link"] = link
-	_moviesInfo["cover"] = listDetail.VodPic
-	_moviesInfo["name"] = listDetail.VodName
-	_moviesInfo["quality"] = listDetail.VodRemarks
-	_moviesInfo["score"] = listDetail.VodScore
-	_moviesInfo["kuyun"] = string(kuyunAryJson)
-	_moviesInfo["ckm3u8"] = string(ckm3u8AryJson)
-	_moviesInfo["download"] = string(downloadAryJson)
+	_moviesInfo.ID = primitive.NewObjectID()
+	_moviesInfo.Link = link
+	_moviesInfo.Cover = listDetail.VodPic
+	_moviesInfo.Name = listDetail.VodName
+	_moviesInfo.Quality = listDetail.VodRemarks
+	_moviesInfo.Score = listDetail.VodScore
+	_moviesInfo.Kuyun = kuyunAry
+	_moviesInfo.Ckm3u8 = ckm3u8Ary
+	_moviesInfo.Download = downloadAry
+	_moviesInfo.TypeID = listDetail.TypeId
+	_moviesInfo.Released = listDetail.VodYear
+	_moviesInfo.Area = listDetail.VodArea
+	_moviesInfo.Language = listDetail.VodLang
 
 	mDetail := make(map[string]interface{})
 	mDetail["alias"] = listDetail.VodSub
 	mDetail["director"] = listDetail.VodDirector
 	mDetail["starring"] = listDetail.VodActor
 	mDetail["type"] = listDetail.TypeName
+	mDetail["typeId"] = listDetail.TypeId
 	mDetail["area"] = listDetail.VodArea
 	mDetail["language"] = listDetail.VodLang
 	mDetail["released"] = listDetail.VodYear
@@ -400,24 +414,46 @@ func Detail(id string, retry int) {
 	mDetail["total_playback"] = listDetail.VodPointsPlay
 	mDetail["vod_play_info"] = listDetail.VodContent
 
-	_detail, _ := utils.Json.MarshalIndent(mDetail, "", " ")
+	_moviesInfo.Detail = mDetail
+	insteadMovie(&_moviesInfo)
 
-	_moviesInfo["detail"] = string(_detail)
+	//redisDB 只存储字符串
+	// kuyunAryJSON, _ := utils.Json.MarshalIndent(kuyunAry, "", " ")
+	// ckm3u8AryJSON, _ := utils.Json.MarshalIndent(ckm3u8Ary, "", " ")
+	// downloadAryJSON, _ := utils.Json.MarshalIndent(downloadAry, "", " ")
+	// _moviesInfo["kuyun"] = string(kuyunAryJSON)
+	// _moviesInfo["ckm3u8"] = string(ckm3u8AryJSON)
+	// _moviesInfo["download"] = string(downloadAryJSON)
+	// _detail, _ := utils.Json.MarshalIndent(mDetail, "", " ")
+	// _moviesInfo["detail"] = string(_detail)
+	// t := utils.RedisDB.HMSet("movies_detail:"+link+":movie_name:"+listDetail.VodName, _moviesInfo).Err()
+	// log.Println(t)
+}
 
-	t := utils.RedisDB.HMSet("movies_detail:"+link+":movie_name:"+listDetail.VodName, _moviesInfo).Err()
-
-	Mongodb, err := database.New("mongodb://127.0.0.1:27017", "users_db")
+//储存电影到数据库
+func insteadMovie(_moviesInfo *model.Movie) {
+	//电影存储
+	conf := config.Get()
+	db, err := database.New(conf.Database.Connection, conf.Database.Dbname)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	defer Mongodb.Close()
-	log.Println(Mongodb)
-	if _, err := Mongodb.DB.Collection("newMovie").
-		InsertOne(context.Background(), _moviesInfo); err != nil {
-		log.Println(err)
+	defer db.Close()
+	movie := db.GetMovieByName(_moviesInfo.Name)
+	if movie != nil {
+		log.Println("该电影《" + movie.Name + "》已存在")
+		err := db.FindOneAndReplace(_moviesInfo)
+		if err != nil {
+			log.Println(err)
+		}
+	} else {
+		err := db.CreateMovie(_moviesInfo)
+		if err == nil {
+			log.Println("已存储电影:《" + _moviesInfo.Name + "》")
+		} else {
+			log.Println(err)
+		}
 	}
-
-	log.Println("当前详情", url, t)
 }
 
 // 获取所有类别ID

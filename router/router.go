@@ -36,6 +36,7 @@ func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Con
 
 	userHandler := api.UserAPI{DB: db}
 	postHandler := api.PostAPI{DB: db}
+	movieHandler := api.MovieAPI{DB: db}
 
 	postU := g.Group("/users")
 	{
@@ -50,6 +51,13 @@ func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Con
 		postG.GET(":id", postHandler.GetPostByID)
 		postG.PUT(":id", postHandler.UpdatePostByID)
 		postG.DELETE(":id", postHandler.DeletePostByID)
+	}
+
+	postM := g.Group("/movie")
+	{
+		postM.GET("", movieHandler.GetMovies)
+		postM.GET(":id", movieHandler.GetMovieByIDs)
+		postM.DELETE(":id", movieHandler.DeleteMovieByID)
 	}
 
 	g.GET("version", func(ctx *gin.Context) {

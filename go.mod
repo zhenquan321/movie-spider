@@ -32,4 +32,5 @@ require (
 	go.mongodb.org/mongo-driver v1.0.0
 	golang.org/x/crypto v0.0.0-20190605123033-f99c8df09eb5
 	gopkg.in/go-playground/validator.v8 v8.18.2
+	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 )
