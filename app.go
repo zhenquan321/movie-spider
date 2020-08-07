@@ -78,7 +78,6 @@ func main() {
 	defer utils.CloseRedisDB()
 	//第一次启动检查爬虫
 	firstSpider()
-	spider.Create().Start()
 	// 启动定时爬虫任务
 	utils.TimingSpider(func() {
 		spider.Create().Start()
