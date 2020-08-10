@@ -62,7 +62,7 @@ func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Con
 
 	g.LoadHTMLGlob("templates/**/*")
 	g.Static("/static", "./static/")
-	postH := g.Group("/home")
+	postH := g.Group("/view")
 	{
 		postH.GET("", homeHandler.Home)
 	}
