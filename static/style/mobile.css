@@ -1,0 +1,215 @@
+@media screen and (max-width: 500px) {
+  .col-lg-1,
+  .col-lg-10,
+  .col-lg-11,
+  .col-lg-12,
+  .col-lg-2,
+  .col-lg-3,
+  .col-lg-4,
+  .col-lg-5,
+  .col-lg-6,
+  .col-lg-7,
+  .col-lg-8,
+  .col-lg-9,
+  .col-md-1,
+  .col-md-10,
+  .col-md-11,
+  .col-md-12,
+  .col-md-2,
+  .col-md-3,
+  .col-md-4,
+  .col-md-5,
+  .col-md-6,
+  .col-md-7,
+  .col-md-8,
+  .col-md-9,
+  .col-sm-1,
+  .col-sm-10,
+  .col-sm-11,
+  .col-sm-12,
+  .col-sm-2,
+  .col-sm-3,
+  .col-sm-4,
+  .col-sm-5,
+  .col-sm-6,
+  .col-sm-7,
+  .col-sm-8,
+  .col-sm-9,
+  .col-xs-1,
+  .col-xs-10,
+  .col-xs-11,
+  .col-xs-12,
+  .col-xs-2,
+  .col-xs-3,
+  .col-xs-4,
+  .col-xs-5,
+  .col-xs-6,
+  .col-xs-7,
+  .col-xs-8,
+  .col-xs-9 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+  html,
+  body {
+    width: 100%;
+  }
+  body {
+    background-color: #f4f5f5 !important;
+  }
+  .row {
+    margin: 0;
+  }
+  .allCount {
+    display: none;
+  }
+  .navbar {
+    padding: 0!important;
+    margin: 0!important;
+    width: 100%!important;
+    overflow: hidden;
+  }
+  .navbar .container {
+    padding: 0;
+    margin: 0;
+  }
+  .container {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+  .movieList {
+    padding: 0;
+    margin: 0 -5px;
+  }
+  .movieList .movieCard {
+    padding: 5px;
+  }
+  .movieList .movieCard a {
+    margin-bottom: 0px;
+  }
+  .blogSearch {
+    display: none;
+  }
+  .breadcrumb {
+    background-color: #f4f5f5 !important;
+  }
+  .topDiv {
+    margin-bottom: 5px;
+    margin-top: 6px;
+    padding: 8px 15px 4px;
+  }
+  .selectHeader {
+    height: 30px;
+    margin-bottom: 0px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 0;
+  }
+  .selectHeader ul {
+    padding-left: 0 ;
+  }
+  .selectHeader h4 {
+    width: 15%;
+    vertical-align: middle;
+    float: left;
+    margin: 0px 0;
+    padding: 3px 0;
+  }
+  .selectHeader div {
+    width: 85%;
+    overflow-x: auto;
+    vertical-align: middle;
+    float: right;
+    margin: 0px 0;
+    padding: 3px;
+    background-color: #fafafa;
+  }
+  .selectHeader ul {
+    width: 1000px;
+  }
+  .logoDiv {
+    margin-right: 10px;
+  }
+  .logoDiv span {
+    display: none;
+  }
+  .nav-left .pingpu li {
+    padding: 0 5px;
+    font-size: 15px;
+  }
+  .nav-right {
+    display: none;
+  }
+  .movieCard img {
+    height: auto;
+    height: 270px;
+  }
+  .breadcrumb {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .handBookCard a {
+    padding: 0 10px;
+  }
+  .handBookCard .photoCard {
+    left: 0;
+    padding-left: 10px;
+  }
+  .blogList .blogCard {
+    padding: 10px 0px;
+  }
+  .blogList .handBookCard {
+    margin-right: 0;
+    padding-right: 0;
+    padding-left: 100px;
+  }
+  .blogList .handBookCard a {
+    width: 100%;
+  }
+  .blogList .handBookCard .createdAt {
+    display: none;
+  }
+  .classificationHeader ul li a {
+    font-size: 14px;
+  }
+  .topDiv .searchTop .btn-default {
+    display: none;
+  }
+  .blogList .blogCard .removeBlog {
+    display: none!important;
+  }
+  .blogList .blogCard .removeBlog a {
+    display: inline;
+  }
+  .handBookCreate .partList {
+    width: 60px;
+    overflow-x: hidden;
+  }
+  .handBookCreate .partList .title {
+    display: none;
+  }
+  .handBookCreate .partList .listBody .listCard {
+    padding: 10px;
+  }
+  .handBookPartView {
+    padding: 55px 5px 40px 65px!important;
+  }
+  #handBookPart {
+    padding: 10px;
+  }
+  .comment .listCard {
+    padding: 10px;
+  }
+  .logoDiv img {
+    margin-left: 10px;
+  }
+  .blogList {
+    margin-top: 43px;
+  }
+  .searchTop .form-inline {
+    height: 40px;
+  }
+}

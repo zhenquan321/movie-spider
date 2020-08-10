@@ -1,6 +1,8 @@
 package api
 
 import (
+	"strings"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,7 +12,9 @@ type HomeAPI struct {
 }
 
 func (a *HomeAPI) Home(ctx *gin.Context) {
-	ctx.Status(200)
+	ctx.Header("Content-Type", "text/html; charset=utf-8")
 
-	ctx.HTML(200, "index.html", "flysnow_org")
+	ctx.HTML(200, "movie.html", gin.H{
+		"title": "hello gin " + strings.ToLower(ctx.Request.Method) + " method",
+	})
 }

@@ -1,0 +1,47 @@
+<nav class="navbar navbar-default navbar-fixed-top navbarCreateBlog" >
+    <div <% if( editor && editor =='markDown'){ %>  <% } else {%>  class="container" <% }%> >
+        <div class="logoDiv">
+                <% if(req.session.user && req.session.user.profile && req.session.user.profile.picture){%>
+                    <img src="<%= req.session.user.profile.picture %>" alt="">
+                <% } else { %>
+                    <img src="/img/logo/logo.png" alt="" srcset="">
+                <% }%>
+           
+            <div class="btn-group selectedEditor" role="group">
+                    <%= (req.session.user && req.session.user.profile && req.session.user.profile.name) || (req.session.user&&req.session.user.email)||'溜忙之道' %>
+                <!-- <input type="button" class="btn btn-default active" placeholder="" value="MarkDown & 富文本编辑器"></button> -->
+                <!-- <input type="button" class="btn btn-default " placeholder="" value=""></button> -->
+            </div>
+        </div>
+        <div class="nav-right">
+            <a class="sxBtn zcBtn" ><i class="iconfont icon-zhangdan"></i>自动暂存</a>
+            <span class="shuxian"></span>
+            <% if (path !='createHandBook'){ %>
+                <a class="sxBtn" onclick="publishBlog(true)"><i class="iconfont icon-fenxiang1"></i>发布</a>
+            <% } else { %>
+                <a class="sxBtn" onclick="saveBook()"><i class="iconfont icon-fenxiang1"></i>完成</a>
+            <% } %>
+        </div>
+    </div>
+</nav>
+
+<%- include('../components/login.html') %>
+<script>
+    function singin() {
+        $("#login").css({
+            display: "block"
+        })
+        $(".singinBody").css({
+            display: "block"
+        })
+    };
+
+    function singUp() {
+        $("#login").css({
+            display: "block"
+        })
+        $(".singupBody").css({
+            display: "block"
+        })
+    };
+</script>

@@ -14,8 +14,7 @@ import (
 
 // Create creates the gin engine with all routes.
 func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Configuration) *gin.Engine {
-	g := gin.New()
-
+	g := gin.Default()
 	g.Use(gin.Logger(), gin.Recovery(), error.Handler())
 	g.NoRoute(error.NotFound())
 
@@ -60,7 +59,9 @@ func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Con
 		postM.GET(":id", movieHandler.GetMovieByIDs)
 		postM.DELETE(":id", movieHandler.DeleteMovieByID)
 	}
-	g.LoadHTMLFiles("html/index.html")
+
+	g.LoadHTMLGlob("templates/**/*")
+	g.Static("/static", "./static/")
 	postH := g.Group("/home")
 	{
 		postH.GET("", homeHandler.Home)
