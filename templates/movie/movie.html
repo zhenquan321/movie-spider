@@ -1,6 +1,67 @@
 {{template "index.html" .}}
 {{define "content"}}
-<h1>
-    这里是子模板，{{ . }}
-</h1>
+<div class="topDiv">
+    <div class="searchTop">
+
+        <div class="allCount">
+            共<span> {{.moviesCount}}</span> 部电影
+        </div>
+        <form class="form-inline" action="/movie" method="get">
+            <div class="form-group">
+                <input type="text" name="keyword" style="border-radius: 5px;" class="form-control" value="1"
+                    id="exampleInputAmount" placeholder="请输入搜索关键词">
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </div>
+        </form>
+    </div>
+    <div class="selectHeader">
+        <h4>年份</h4>
+        <div>
+            <ul>
+                {{$activeYear := .activeYear}} 
+                <li><a {{if not  $activeYear }} class="active" {{end}} href="">全部 </a></li>
+                {{range $i, $v := .yearList }}
+                <li><a {{if eq $activeYear $v}} class="active" {{end}} href="">{{$v}}</a></li>
+                {{end}}
+            </ul>
+        </div>
+    </div>
+    <div class="selectHeader">
+        <h4>类别</h4>
+        <div>
+            <ul>
+                <li><a class="active" href="">全部</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="movieList">
+    <div class="row mb20">
+        {{range $i, $v :=  .movies }}
+        <div class="col-xs-6 col-md-3 movieCard">
+            <a href="/movieItem/" class="thumbnail">
+                <img src={{$v.Cover}} alt="">
+                <div class="dzBtnGroup movieRd">
+                    <span><i class="iconfont icon-guankan"></i>{{0 }}</span>
+                    <span><i class="iconfont icon-dianzan"></i>{{0 }}</span>
+                    <span><i class="iconfont icon-pinglun"></i>{{0 }}</span>
+                </div>
+                <div class="movieHeader">
+                    <h4>{{$v.Name}}
+                        {{if $v.Released}}
+                        ({{$v.Released}})
+                        {{end}}
+                    </h4>
+                    <h6>{{$v.Detail.vod_play_info}}</h6>
+                </div>
+            </a>
+        </div>
+        {{else}}
+        <p style="margin: 20px;">抱歉，没有更多影片了~我们正在加紧收录中。。。</p>
+        {{end}}
+
+
+    </div>
+</div>
 {{end}}

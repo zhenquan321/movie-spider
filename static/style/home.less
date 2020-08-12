@@ -1,5 +1,7 @@
 @import "./config.less";
-
+body {
+    background-color: #f4f5f5;
+}
 .navbar-default {
     background-color: #ffffff;
     border-color: #e7e7e7;
@@ -53,6 +55,12 @@
     color: red !important;
     font-weight: 600;
 }
+
+.sepcaliColor-cheng {
+    color: #ff8800 !important;
+    font-weight: 600;
+}
+
 
 .navbar {
     font-size: 16px;
@@ -325,6 +333,7 @@ a.thumbnail:hover {
             text-overflow: ellipsis;
             white-space: nowrap;
             font-size: 16px;
+            font-weight: 600;
         }
 
         h6 {
@@ -379,7 +388,8 @@ a.thumbnail:hover {
     padding: 0 10px;
     border-radius: 10px;
     padding-bottom: 1px;
-
+    display: flex;
+    align-items: center;
     .active {
         color: @mainColor;
         font-weight: 600;
@@ -389,12 +399,13 @@ a.thumbnail:hover {
         margin: 12px 0;
         color: #999;
         float: right;
+        width: 60px;
     }
 
     h4 {
         font-size: 16px;
         font-weight: 600;
-        display: inline-block;
+        width: 50px;
     }
 
     div {
@@ -404,11 +415,10 @@ a.thumbnail:hover {
     ul {
         display: inline-block;
         margin: 0;
-        padding-left: 10px;
-
+        padding-left: 0px;
         li {
             display: inline-block;
-            padding: 0 12px 0 10px;
+            padding: 2px 12px 0 10px;
             margin: 0;
             border-right: 1px solid #ccc;
 
@@ -521,13 +531,13 @@ a.thumbnail:hover {
 
 .searchTop {
     height: 40px;
-    margin: 4px 0;
+    margin: 4px 0 0;
 
     .form-inline {
         width: 300px;
         float: right;
-        height: 50px;
-
+        height: 40px;
+        margin: 0;
         input {
             width: 240px;
             border-color: #ddd;

@@ -1,3 +1,6 @@
+body {
+  background-color: #f4f5f5;
+}
 .navbar-default {
   background-color: #ffffff;
   border-color: #e7e7e7;
@@ -37,6 +40,10 @@
 }
 .sepcaliColor-red {
   color: red !important;
+  font-weight: 600;
+}
+.sepcaliColor-cheng {
+  color: #ff8800 !important;
   font-weight: 600;
 }
 .navbar {
@@ -274,6 +281,7 @@ a.thumbnail:hover {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 16px;
+  font-weight: 600;
 }
 .movieCard .movieHeader h6 {
   height: 40px;
@@ -317,6 +325,8 @@ a.thumbnail:hover {
   padding: 0 10px;
   border-radius: 10px;
   padding-bottom: 1px;
+  display: flex;
+  align-items: center;
 }
 .selectHeader .active {
   color: #e59233;
@@ -326,11 +336,12 @@ a.thumbnail:hover {
   margin: 12px 0;
   color: #999;
   float: right;
+  width: 60px;
 }
 .selectHeader h4 {
   font-size: 16px;
   font-weight: 600;
-  display: inline-block;
+  width: 50px;
 }
 .selectHeader div {
   display: inline-block;
@@ -338,11 +349,11 @@ a.thumbnail:hover {
 .selectHeader ul {
   display: inline-block;
   margin: 0;
-  padding-left: 10px;
+  padding-left: 0px;
 }
 .selectHeader ul li {
   display: inline-block;
-  padding: 0 12px 0 10px;
+  padding: 2px 12px 0 10px;
   margin: 0;
   border-right: 1px solid #ccc;
 }
@@ -425,12 +436,13 @@ a.thumbnail:hover {
 }
 .searchTop {
   height: 40px;
-  margin: 4px 0;
+  margin: 4px 0 0;
 }
 .searchTop .form-inline {
   width: 300px;
   float: right;
-  height: 50px;
+  height: 40px;
+  margin: 0;
 }
 .searchTop .form-inline input {
   width: 240px;
