@@ -63,6 +63,7 @@ func (a *HomeAPI) Home(ctx *gin.Context) {
 			Condition: condition,
 		})
 	moviesCount := a.DB.CountMovie(condition)
+	allMoviesCount := a.DB.CountMovie(nil)
 
 	//生成年份列表
 	var yearList [15]int
@@ -81,5 +82,6 @@ func (a *HomeAPI) Home(ctx *gin.Context) {
 		"categories":      categories,
 		"selCategories":   selCategories,
 		"selZiCategories": selZiCategories,
+		"allMoviesCount":  allMoviesCount,
 	})
 }

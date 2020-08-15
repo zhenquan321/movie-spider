@@ -317,9 +317,11 @@ a.thumbnail:hover {
 .allCount {
   display: inline-block;
   padding: 10px;
+  font-size: 13px;
 }
 .allCount span {
-  color: #e59233;
+  color: #b71ed7 !important;
+  font-weight: 600;
 }
 .selectHeader {
   padding: 0 10px;

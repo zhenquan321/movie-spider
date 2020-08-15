@@ -106,6 +106,9 @@ func (d *TenDatabase) GetMovieByIDs(ids []primitive.ObjectID) []*model.Movie {
 
 // CountMovie returns the movie count
 func (d *TenDatabase) CountMovie(condition interface{}) string {
+	if condition == nil {
+		condition = bson.D{{}}
+	}
 	total, err := d.DB.Collection("movies").CountDocuments(context.Background(), condition, &options.CountOptions{})
 	if err != nil {
 		return "0"
