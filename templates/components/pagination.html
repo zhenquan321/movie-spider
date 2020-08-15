@@ -1,49 +1,67 @@
 <div class="change-Pages">
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
+    <nav id="pageList" aria-label="Page navigation">
+
+    </nav>
+    <span id="allPage" class="allPage">共页 </span>
+</div>
+
+
+<script>
+    let allCount = {{.allCount }};
+    let pageCount = {{.pageCount }};
+    let page = {{.page }};
+
+    function goHref(type, value) {
+        console.log(type, value)
+    }
+
+    function setPageList() {
+
+        let href = window.location.href
+        let allPageCount = Math.ceil(allCount / pageCount);
+        document.getElementById('allPage').innerHTML = `共${allPageCount}页`
+        var eleStr = ` 
             <li>
-                <% if(pageInfo.currentPage <=1) {%>
-                <a href="<%- pageInfo.baseUrl + 'page=' + 1 %>" aria-label="Previous">
+                <a onClick ="goHref('_page',${page > 0 ? page - 1 : 0})" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
+                </a >
+            </li > `
+        let pageItemList = [];
+        if (allPageCount < 5) {
+            for (let i = 0; i < allPageCount; i++) {
+                pageItemList.push(i)
+            }
+        } else if (page < 3) {
+            pageItemList = [1, 2, 3, 4, 5];
+        } else if (page > allPageCount - 2) {
+            pageItemList = [allPageCount - 4, allPageCount - 3, allPageCount - 2, allPageCount - 1, allPageCount];
+        } else {
+            pageItemList = [page - 2, page - 1, page, page + 1, page + 2]
+        }
+
+        for (let a = 0; a < pageItemList.length; a++) {
+            eleStr = eleStr + `
+            <li>
+                <a onClick ="goHref('_page',${pageItemList[a]})"  class="${page == pageItemList[a] ? 'active' : ''}" aria-label="Previous">
+                   ${ pageItemList[a]}
                 </a>
-                <% }else{%>
-                <a href="<%- pageInfo.baseUrl + 'page=' + (pageInfo.currentPage - 1) %>" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-                <% }%>
             </li>
-            <% if( pageInfo.currentPage > Math.ceil(pageInfo.count/pageInfo.pageSize)) {%>
-                <% for(let i=((Math.ceil(pageInfo.count/pageInfo.pageSize)-5)>1?(Math.ceil(pageInfo.count/pageInfo.pageSize)-5):1);i<=Math.ceil(pageInfo.count/pageInfo.pageSize);i++){ %>
-                    <li> 
-                        <a <% if(pageInfo.currentPage==i){%> class="active" <% }%>  href="<%- pageInfo.baseUrl + 'page=' + i %>" aria-label="Previous">
-                            <%- i %>
-                        </a>
-                    </li>
-                <% }%>
-            <% }else if(pageInfo.currentPage <=3) {%>
-                <% for(let i=1;i<=(Math.ceil(pageInfo.count/pageInfo.pageSize)<7?Math.ceil(pageInfo.count/pageInfo.pageSize):6 );i++){ %>
-                    <li> 
-                        <a <% if(pageInfo.currentPage==i){%> class="active" <% }%> href="<%- pageInfo.baseUrl + 'page=' + i %>" aria-label="Previous">
-                            <%- i %>
-                        </a>
-                    </li>
-                <% }%>
-            <% }else{%>
-                <% for(let i=pageInfo.currentPage-2;i<=(Math.ceil(pageInfo.count/pageInfo.pageSize)<(pageInfo.currentPage+3)?Math.ceil(pageInfo.count/pageInfo.pageSize):(pageInfo.currentPage+3) );i++){ %>
-                    <li> 
-                        <a <% if(pageInfo.currentPage==i){%> class="active" <% }%>  href="<%- pageInfo.baseUrl + 'page=' + i %>" aria-label="Previous">
-                            <%- i %>
-                        </a>
-                    </li>
-                <% }%>
-            <% }%>
+            `
+        }
+        eleStr = eleStr + `
             <li>
-                <a href="<%- pageInfo.baseUrl + 'page=' + (pageInfo.currentPage + 1) %>" aria-label="Next">
+                <a  onClick = goHref('_page',${page == pageItemList ? pageItemList : page + 1})"  aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
-        </ul>
-    </nav>
-    <span class="allPage">共<%- Math.ceil(pageInfo.count/pageInfo.pageSize)%>页 </span>
-</div>
+            `;
 
+        console.log(eleStr)
+        var div = document.createElement('ul');
+        div.className = "pagination"
+        div.innerHTML = eleStr;
+        document.getElementById('pageList').appendChild(div);
+    }
+
+    setPageList()
+</script>

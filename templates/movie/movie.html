@@ -4,7 +4,7 @@
     <div class="searchTop">
 
         <div class="allCount">
-            共<span> {{.moviesCount}}</span> 部电影
+            共<span> {{.allCount}}</span> 部电影
         </div>
         <form class="form-inline" action="/movie" method="get">
             <div class="form-group">
@@ -64,4 +64,6 @@
 
     </div>
 </div>
+
+{{template "pagination.html" .}}
 {{end}}

@@ -1077,3 +1077,6 @@ a.thumbnail:hover {
 .fixedCard ul li i {
   font-size: 1.9rem;
 }
+#pageList a {
+  cursor: pointer;
+}
