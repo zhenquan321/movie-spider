@@ -438,6 +438,25 @@ a.thumbnail:hover {
   height: 40px;
   margin: 4px 0 0;
 }
+.searchTop .movieTypeList {
+  display: inline-block;
+}
+.searchTop .movieTypeList .movieTypeItem {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 5px 10px;
+}
+.searchTop .movieTypeList .movieTypeItem:hover {
+  color: #e59233;
+}
+.searchTop .movieTypeList .active {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  color: #e59233;
+}
 .searchTop .form-inline {
   width: 300px;
   float: right;
@@ -1078,5 +1097,17 @@ a.thumbnail:hover {
   font-size: 1.9rem;
 }
 #pageList a {
+  cursor: pointer;
+}
+#movieTypeZiList {
+  cursor: pointer;
+  margin-top: 10px;
+  background-color: #f2f2f2;
+  margin-bottom: 4px;
+}
+#movieTypeZiList ul {
+  padding: 4px;
+}
+.yearList {
   cursor: pointer;
 }

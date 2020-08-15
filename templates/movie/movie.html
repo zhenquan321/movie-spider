@@ -2,9 +2,9 @@
 {{define "content"}}
 <div class="topDiv">
     <div class="searchTop">
-
+        <div id="movieTypeList" class="movieTypeList"></div>
         <div class="allCount">
-            共<span> {{.allCount}}</span> 部电影
+            此条件共<span> {{.allCount}}</span> 部
         </div>
         <form class="form-inline" action="/movie" method="get">
             <div class="form-group">
@@ -15,25 +15,29 @@
         </form>
     </div>
     <div class="selectHeader">
+        <div id="movieTypeZiList"></div>
+    </div>
+    <div class="selectHeader">
         <h4>年份</h4>
         <div>
-            <ul>
-                {{$activeYear := .activeYear}} 
-                <li><a {{if not  $activeYear }} class="active" {{end}} href="">全部 </a></li>
+            <ul class="yearList">
+                {{$activeYear := .activeYear}}
+                <li><a {{if not  $activeYear }} class="active" {{end}} onclick="goHref('activeYear','')">全部 </a></li>
                 {{range $i, $v := .yearList }}
-                <li><a {{if eq $activeYear $v}} class="active" {{end}} href="">{{$v}}</a></li>
+                <li><a {{if eq $activeYear $v}} class="active" {{end}} onclick="goHref('activeYear',{{$v}})">{{$v}}</a>
+                </li>
                 {{end}}
             </ul>
         </div>
     </div>
-    <div class="selectHeader">
+    <!-- <div class="selectHeader">
         <h4>类别</h4>
         <div>
             <ul>
                 <li><a class="active" href="">全部</a></li>
             </ul>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <div class="movieList">
@@ -64,6 +68,77 @@
 
     </div>
 </div>
+
+<script>
+    let Categories = JSON.parse({{.categories }});
+    let selCategories = {{.selCategories }};
+    let selZiCategories = {{.selZiCategories }};
+    function selCategoriesFun(id) {
+        this.goHref("selCategories", id)
+    }
+    function selZiCategoriesFun(id) {
+        this.goHref("selZiCategories", id)
+    }
+    function setCategoriesFun() {
+        var movieTypeListStr = "";
+        var movieTypeZiListStr = "";
+        let ziCategories = Categories[0].sub;
+        selCategories = selCategories || Categories[0].type_id;
+        selZiCategories = selZiCategories || ziCategories[0].type_id;
+        console.log(selZiCategories)
+        for (let a = 0; a < Categories.length; a++) {
+            movieTypeListStr = movieTypeListStr + `<div onClick="selCategoriesFun(${Categories[a].type_id})" class="movieTypeItem ${selCategories == Categories[a].type_id ? "active" : ""}">${Categories[a].name}</div>`
+            if (selCategories == Categories[a].type_id) {
+                ziCategories = Categories[a].sub
+            }
+        }
+
+        for (let b = 0; b < ziCategories.length; b++) {
+            movieTypeZiListStr = movieTypeZiListStr + ` <li onClick="selZiCategoriesFun(${ziCategories[b].type_id})" ><a class="${selZiCategories == ziCategories[b].type_id ? "active" : ""}">${ziCategories[b].name}</a></li>  `
+        }
+        var div1 = document.createElement('ul');
+        div1.innerHTML = movieTypeZiListStr;
+        document.getElementById('movieTypeZiList').appendChild(div1);
+        var div2 = document.createElement('div');
+        div2.className = 'movieTypeList'
+        div2.innerHTML = movieTypeListStr;
+        document.getElementById('movieTypeList').appendChild(div2);
+    }
+    setCategoriesFun()
+    function goHref(type, value) {
+
+        let url = window.location.href;
+        let urlQ = url.split("?");
+        let queryData = {};
+        let urlQD = urlQ[1] ? urlQ[1].split('&') : [];
+        for (let a = 0; a < urlQD.length; a++) {
+            let urlQDItem = urlQD[a].split('=');
+            queryData[urlQDItem[0]] = urlQDItem[1];
+        }
+        if (type) {
+            queryData[type] = value;
+        }
+        if (type = "selCategories") {
+            for (let a = 0; a < Categories.length; a++) {
+                if (value == Categories[a].type_id) {
+                    queryData.selZiCategories = Categories[a].sub[0].type_id;
+                    break
+                }
+            }
+            
+        }
+        if (type != "page") {
+            queryData.page = 0;
+        }
+        let goUrl = window.location.href.split("?")[0] + "?";
+        for (key in queryData) {
+            if (key) {
+                goUrl = goUrl + key + '=' + queryData[key] + "&";
+            }
+        }
+        window.location.href = goUrl;
+    }
+</script>
 
 {{template "pagination.html" .}}
 {{end}}

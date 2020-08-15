@@ -9,20 +9,16 @@
 <script>
     let allCount = {{.allCount }};
     let pageCount = {{.pageCount }};
-    let page = {{.page }};
-
-    function goHref(type, value) {
-        console.log(type, value)
-    }
+    let page = {{.page }} ;
 
     function setPageList() {
-
+        page = page ||0
         let href = window.location.href
         let allPageCount = Math.ceil(allCount / pageCount);
         document.getElementById('allPage').innerHTML = `共${allPageCount}页`
         var eleStr = ` 
             <li>
-                <a onClick ="goHref('_page',${page > 0 ? page - 1 : 0})" aria-label="Previous">
+                <a onClick ="goHref('page',${page > 0 ? page - 1 : 0})" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a >
             </li > `
@@ -32,7 +28,7 @@
                 pageItemList.push(i)
             }
         } else if (page < 3) {
-            pageItemList = [1, 2, 3, 4, 5];
+            pageItemList = [0, 1, 2, 3, 4];
         } else if (page > allPageCount - 2) {
             pageItemList = [allPageCount - 4, allPageCount - 3, allPageCount - 2, allPageCount - 1, allPageCount];
         } else {
@@ -42,21 +38,20 @@
         for (let a = 0; a < pageItemList.length; a++) {
             eleStr = eleStr + `
             <li>
-                <a onClick ="goHref('_page',${pageItemList[a]})"  class="${page == pageItemList[a] ? 'active' : ''}" aria-label="Previous">
-                   ${ pageItemList[a]}
+                <a onClick ="goHref('page',${pageItemList[a]})"  class="${page == pageItemList[a] ? 'active' : ''}" aria-label="Previous">
+                   ${ pageItemList[a] + 1}
                 </a>
             </li>
             `
         }
         eleStr = eleStr + `
             <li>
-                <a  onClick = goHref('_page',${page == pageItemList ? pageItemList : page + 1})"  aria-label="Next">
+                <a  onClick =" goHref('page',${page == allPageCount ? allPageCount : page + 1})"  aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
             `;
 
-        console.log(eleStr)
         var div = document.createElement('ul');
         div.className = "pagination"
         div.innerHTML = eleStr;

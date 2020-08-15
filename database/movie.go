@@ -18,7 +18,7 @@ import (
 func (d *TenDatabase) GetMovies(paging *model.Paging) []*model.Movie {
 	movies := []*model.Movie{}
 	cursor, err := d.DB.Collection("movies").
-		Find(context.Background(), bson.D{},
+		Find(context.Background(), paging.Condition,
 			&options.FindOptions{
 				Skip:  paging.Skip,
 				Sort:  bson.D{bson.E{Key: paging.SortKey, Value: paging.SortVal}},
@@ -105,8 +105,8 @@ func (d *TenDatabase) GetMovieByIDs(ids []primitive.ObjectID) []*model.Movie {
 }
 
 // CountMovie returns the movie count
-func (d *TenDatabase) CountMovie() string {
-	total, err := d.DB.Collection("movies").CountDocuments(context.Background(), bson.D{{}}, &options.CountOptions{})
+func (d *TenDatabase) CountMovie(condition interface{}) string {
+	total, err := d.DB.Collection("movies").CountDocuments(context.Background(), condition, &options.CountOptions{})
 	if err != nil {
 		return "0"
 	}

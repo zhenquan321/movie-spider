@@ -20,7 +20,7 @@ type MovieDatabase interface {
 	FindOneAndReplace(movie *model.Movie) *mongo.SingleResult
 	CreateMovie(movie *model.Movie) error
 	GetMovies(paging *model.Paging) []*model.Movie
-	CountMovie() string
+	CountMovie(condition interface{}) string
 }
 
 // The MovieAPI provides handlers for managing movies.
@@ -87,6 +87,6 @@ func (a *MovieAPI) GetMovies(ctx *gin.Context) {
 			Condition: nil,
 		})
 
-	ctx.Header("X-Total-Count", a.DB.CountMovie())
+	ctx.Header("X-Total-Count", a.DB.CountMovie(nil))
 	ctx.JSON(200, movies)
 }

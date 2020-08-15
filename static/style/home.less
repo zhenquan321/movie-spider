@@ -532,7 +532,26 @@ a.thumbnail:hover {
 .searchTop {
     height: 40px;
     margin: 4px 0 0;
-
+    .movieTypeList{
+        display: inline-block;
+        .movieTypeItem{
+            display: inline-block;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin:5px 10px;
+            &:hover{
+                color: @mainColor;
+            }
+        }
+        .active{
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            color: @mainColor;
+            // border-bottom: 3px solid @mainColor;
+        }
+    }
     .form-inline {
         width: 300px;
         float: right;
@@ -1339,4 +1358,18 @@ a.thumbnail:hover {
     a{
         cursor: pointer;
     }
+}
+
+#movieTypeZiList{
+    cursor: pointer;
+    margin-top: 10px;
+    background-color: #f2f2f2;
+    margin-bottom: 4px;
+    ul{
+        padding: 4px;
+    }
+}
+
+.yearList{
+    cursor: pointer;
 }
