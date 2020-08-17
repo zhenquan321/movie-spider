@@ -78,6 +78,18 @@ func (d *TenDatabase) GetMovieByName(name string) *model.Movie {
 }
 
 // GetMovieByIDs returns the movie by the given id or nil.
+func (d *TenDatabase) GetMovieByID(id primitive.ObjectID) *model.Movie {
+	var movie *model.Movie
+	err := d.DB.Collection("movies").
+		FindOne(context.Background(), bson.D{{Key: "_id", Value: id}}).
+		Decode(&movie)
+	if err != nil {
+		return nil
+	}
+	return movie
+}
+
+// GetMovieByIDs returns the movie by the given id or nil.
 func (d *TenDatabase) GetMovieByIDs(ids []primitive.ObjectID) []*model.Movie {
 	var movies []*model.Movie
 	cursor, err := d.DB.Collection("movies").

@@ -1,61 +1,20 @@
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="logoDiv">
-            <a href="/">
-                <img src="/static/img/logo/logo.png" alt="" srcset="">
-                <span>溜忙之道</span>
-            </a>
-        </div>
-        <div class="nav-left">
-            <ul class="pingpu">
-                <li><a href="http://fengzq.cn/">首页</a></li>
-                <li><a href="http://fengzq.cn/handBook">溜忙手册</a></li>
-                <li><a href="http://fengzq.cn/movie">电影</a></li>
-                <li><a href="http://fengzq.cn/movie" class="sepcaliColor-cheng">在线影院</a></li>
-                <li><a href="http://a.lmongo.com" class="sepcaliColor-zi" target="_blank">offer之道</a></li>
-                <li><a href="https://github.com/zhenquan321" class="sepcaliColor-red" target="_blank">项目Git</a></li>
-            </ul>
-        </div>
-        <!-- <div class="nav-right">
-            <a class="sxBtn" href="/blogCreate" target="_black"><i class="iconfont icon-bianji"></i>写文章</a>
+<html lang="en">
 
-            <a class="sxBtn" id="openHandBookCreateModel"><i class="iconfont icon-shoujianludan"></i>写小册</a>
+<head>
+  <meta charset="utf-8">
+  <title>{{.title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1476614_r36xjlyjnko.css">
+  <link rel="stylesheet" href="/static/style/home.css">
+  <link rel="stylesheet" href="/static/style/handBook.css">
+  <link rel="stylesheet" href="/static/style/mobile.css">
+  <link rel="icon" href="/static/img/logo/favicon_64.ico">
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+  <script src="/static/js/emoji.js"></script>
+</head>
 
-            <a class="sxBtn" onclick="singIn()"><i class="iconfont icon-bianji"></i>写文章</a>
-            <span class="shuxian"></span>
-            <div class="btn-group">
-                <div class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <div class="headerImg">
-                        <img src="" alt="">
-                        <span><i class="iconfont icon-shenfenrenzheng-zhiye"></i></span>
-                    </div>
-                    <a  href="/userInfo/<%=req.session.user._id%>"></a>
-                </div>
-                <ul class="dropdown-menu">
-                    <li><a href="/userInfo/<%=req.session.user._id%>">个人中心</a></li>
-                    <li><a href="/auth/signout">退出</a></li>
-                </ul>
-            </div>
-            <a onclick="singIn()">登录</a> · <a onclick="singUp()">注册</a>
-        </div> -->
-    </div>
-</nav>
-<script>
-    function singIn() {
-        $("#login").css({
-            display: "block"
-        })
-        $(".singinBody").css({
-            display: "block"
-        })
-    };
-
-    function singUp() {
-        $("#login").css({
-            display: "block"
-        })
-        $(".singupBody").css({
-            display: "block"
-        })
-    };
-</script>
+<body>
+  {{template "nav.html" .}}
+  <div class="main-body container">

@@ -6,16 +6,17 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"gopkg.in/mgo.v2/bson"
 )
 
 // The MovieAPI provides handlers for managing movies.
-type HomeAPI struct {
+type HtmlAPI struct {
 	DB MovieDatabase
 }
 
-func (a *HomeAPI) Home(ctx *gin.Context) {
-	ctx.Header("Content-Type", "text/html; charset=utf-8")
+func (a *HtmlAPI) Movie(ctx *gin.Context) {
+
 	var (
 		page            int64
 		sort            string
@@ -65,12 +66,16 @@ func (a *HomeAPI) Home(ctx *gin.Context) {
 	moviesCount := a.DB.CountMovie(condition)
 	allMoviesCount := a.DB.CountMovie(nil)
 
+	for i := 0; i < 20; i++ {
+		movies[i].StrID = movies[i].ID.Hex() /* 设置元素为 i + 100 */
+	}
+
 	//生成年份列表
 	var yearList [15]int
 	for i := 0; i < 15; i++ {
 		yearList[i] = 2020 - i /* 设置元素为 i + 100 */
 	}
-
+	ctx.Header("Content-Type", "text/html; charset=utf-8")
 	ctx.HTML(200, "movie.html", gin.H{
 		"title":           "牛逼的电影全在这",
 		"movies":          movies,
@@ -83,5 +88,15 @@ func (a *HomeAPI) Home(ctx *gin.Context) {
 		"selCategories":   selCategories,
 		"selZiCategories": selZiCategories,
 		"allMoviesCount":  allMoviesCount,
+	})
+}
+
+func (a *HtmlAPI) MovieDetail(ctx *gin.Context) {
+	withID(ctx, "id", func(id primitive.ObjectID) {
+		ctx.Header("Content-Type", "text/html; charset=utf-8")
+		movies := a.DB.GetMovieByID(id)
+		ctx.HTML(200, "movieDetail.html", gin.H{
+			"movies": movies,
+		})
 	})
 }

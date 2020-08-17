@@ -2,19 +2,20 @@ package api
 
 import (
 	"errors"
+	"movie_spider/model"
 	"net/http"
 	"strconv"
-
-	"movie_spider/model"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"gopkg.in/mgo.v2/bson"
 )
 
 // The MovieDatabase interface for encapsulating database access.
 type MovieDatabase interface {
 	GetMovieByIDs(ids []primitive.ObjectID) []*model.Movie
+	GetMovieByID(id primitive.ObjectID) *model.Movie
 	GetMovieByName(name string) *model.Movie
 	DeleteMovieByID(id primitive.ObjectID) error
 	FindOneAndReplace(movie *model.Movie) *mongo.SingleResult
@@ -53,40 +54,51 @@ func (a *MovieAPI) DeleteMovieByID(ctx *gin.Context) {
 // GetMovies returns all the movies
 // _end=5&_order=DESC&_sort=id&_start=0 adapt react-admin
 func (a *MovieAPI) GetMovies(ctx *gin.Context) {
-	var (
-		start int64
-		end   int64
-		sort  string
-		order int
-	)
-	id := ctx.DefaultQuery("id", "")
-	if id != "" {
-		a.GetMovieByIDs(ctx)
-		return
-	}
-	start, _ = strconv.ParseInt(ctx.DefaultQuery("_start", "0"), 10, 64)
-	end, _ = strconv.ParseInt(ctx.DefaultQuery("_end", "10"), 10, 64)
-	sort = ctx.DefaultQuery("_sort", "_id")
-	order = 1
 
+	var (
+		page            int64
+		sort            string
+		order           int
+		start           int64
+		activeYear      int
+		selZiCategories int
+	)
+	page, _ = strconv.ParseInt(ctx.DefaultQuery("page", "0"), 10, 64)
+	start = page * 20
+	activeYear, _ = strconv.Atoi(ctx.DefaultQuery("activeYear", ""))
+	sort = ctx.DefaultQuery("sort", "released")
+	selZiCategories, _ = strconv.Atoi(ctx.DefaultQuery("selZiCategories", ""))
+
+	var limit int64 = 20
+
+	order = 1
 	if sort == "id" {
 		sort = "_id"
 	}
-
 	if ctx.DefaultQuery("_order", "DESC") == "DESC" {
 		order = -1
 	}
 
-	limit := end - start
+	condition := make(bson.M)
+	if activeYear > 0 {
+		condition["released"] = strconv.Itoa(activeYear)
+	}
+	if selZiCategories > 0 {
+		condition["typeId"] = selZiCategories
+	} else {
+		condition["typeId"] = 6
+	}
+
 	movies := a.DB.GetMovies(
 		&model.Paging{
 			Skip:      &start,
 			Limit:     &limit,
 			SortKey:   sort,
 			SortVal:   order,
-			Condition: nil,
+			Condition: condition,
 		})
+	// moviesCount := a.DB.CountMovie(condition)
+	// allMoviesCount := a.DB.CountMovie(nil)
 
-	ctx.Header("X-Total-Count", a.DB.CountMovie(nil))
 	ctx.JSON(200, movies)
 }

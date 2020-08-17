@@ -36,7 +36,7 @@ func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Con
 	userHandler := api.UserAPI{DB: db}
 	postHandler := api.PostAPI{DB: db}
 	movieHandler := api.MovieAPI{DB: db}
-	homeHandler := api.HomeAPI{DB: db}
+	htmlHandler := api.HtmlAPI{DB: db}
 
 	postU := g.Group("/users")
 	{
@@ -64,7 +64,8 @@ func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Con
 	g.Static("/static", "./static/")
 	postH := g.Group("/view")
 	{
-		postH.GET("", homeHandler.Home)
+		postH.GET("movie", htmlHandler.Movie)
+		postH.GET("movieDetail/:id", htmlHandler.MovieDetail)
 	}
 
 	g.GET("version", func(ctx *gin.Context) {

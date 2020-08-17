@@ -20,6 +20,7 @@ type Movie struct {
 	Area     string                 `bson:"area" json:"area"`
 	Language string                 `bson:"language" json:"language"`
 	Detail   map[string]interface{} `bson:"detail" json:"detail"`
+	StrID    string                 `bson:"strid" json:"strid"`
 }
 
 // New is
