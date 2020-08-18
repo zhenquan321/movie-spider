@@ -66,7 +66,7 @@ func (a *MovieAPI) GetMovies(ctx *gin.Context) {
 	page, _ = strconv.ParseInt(ctx.DefaultQuery("page", "0"), 10, 64)
 	start = page * 20
 	activeYear, _ = strconv.Atoi(ctx.DefaultQuery("activeYear", ""))
-	sort = ctx.DefaultQuery("sort", "released")
+	sort = ctx.DefaultQuery("sort", "updateTime")
 	selZiCategories, _ = strconv.Atoi(ctx.DefaultQuery("selZiCategories", ""))
 
 	var limit int64 = 20

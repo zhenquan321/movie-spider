@@ -1,26 +1,41 @@
 {{template "header.html" .}}
 <ol class="breadcrumb">
-    <li><a href="/movie">电影</a></li>
-    <li> movie.name </li>
+    <li><a href="/view/movie">在线影院</a></li>
+    <li> {{.movies.Name}} </li>
 </ol>
 <div class="movieDetail">
     <div class="imgCard">
         <div class="row baseDiv">
-            <div class="col-xs-12 col-md-4">
+            <div class="col-xs-12 col-md-3">
                 <img src="{{.movies.Cover}} " alt="">
             </div>
-            <div class="col-xs-12 col-md-8 h100">
+            <div class="col-xs-12 col-md-9 ">
                 <div class="movieJj">
-                    <h3> {{.movies.Name}} </h3>
-                    <h5>发布时间： {{.movies.Released}}</h5>
+                    <h3> {{.movies.Name}} <i><span class="score">{{.movies.Score}}</span></i></h3>
+                    <h5>更新时间： {{.movies.Detail.update}}</h5>
+                    <p><span>导演：</span>{{.movies.Detail.director}} </p>
+                    <p><span>主演：</span>{{.movies.Detail.starring}} </p>
+                    <p><span>地区：</span>{{.movies.Detail.area}} </p>
+                    <p><span>语言：</span>{{.movies.Detail.language}} </p>
+                    <p><span>上映：</span>{{.movies.Detail.released}} </p>
                     <p><span>简介：</span>{{.movies.Detail.vod_play_info}} </p>
-                    
                 </div>
             </div>
         </div>
         <hr />
         <div class="detailCard">
-            <p> ms </p>
+            <h4>在线播放</h4>
+            <div class="linkList">
+                {{range $i, $v :=  .movies.Kuyun }}
+                    <a href="{{$v.play_link}}" target="_blank" rel="noopener noreferrer"><span>{{$v.episode}}</span>{{$v.play_link}}</a>
+                {{end}}
+            </div>
+            <h4>点击下载</h4>
+            <div  class="linkList">
+                {{range $i, $v :=  .movies.Download }}
+                    <a href="{{$v.play_link}}" target="_blank" rel="noopener noreferrer" download="true"><span>{{$v.episode}}</span>{{$v.play_link}}</a>
+                {{end}}
+            </div>
         </div>
     </div>
 </div>

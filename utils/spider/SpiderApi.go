@@ -399,6 +399,7 @@ func Detail(id string, retry int) {
 	_moviesInfo.Released = listDetail.VodYear
 	_moviesInfo.Area = listDetail.VodArea
 	_moviesInfo.Language = listDetail.VodLang
+	_moviesInfo.UpdateTime = listDetail.VodTime
 
 	mDetail := make(map[string]interface{})
 	mDetail["alias"] = listDetail.VodSub

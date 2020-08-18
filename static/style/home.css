@@ -395,13 +395,20 @@ a.thumbnail:hover {
 }
 .movieDetail .movieJj h3 {
   color: #e59233;
+  font-weight: 600;
+}
+.movieDetail .movieJj h3 .score {
+  color: red;
+  margin-right: 40px;
+  font-size: 28px;
+  float: right;
 }
 .movieDetail .movieJj h5 {
-  font-size: 16px;
+  font-size: 14px;
   color: #999;
+  margin-bottom: 57px;
 }
 .movieDetail .movieJj p {
-  margin-top: 40px;
   font-size: 14px;
   color: #666;
 }
@@ -428,6 +435,34 @@ a.thumbnail:hover {
   background-color: #fff;
   border-radius: 6px;
   margin-top: 10px;
+}
+.movieDetail .detailCard h4 {
+  border-left: 4px solid #2d9cfc;
+  padding-left: 10px;
+  font-weight: 600;
+  color: #555;
+  margin-top: 30px;
+}
+.movieDetail .detailCard .linkList a {
+  display: block;
+  height: 30px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f4f4f4;
+  line-height: 30px;
+  margin-bottom: 10px;
+}
+.movieDetail .detailCard .linkList a span {
+  display: inline-block;
+  width: 30px ;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  background: coral;
+  color: #fff;
+  border-radius: 20px;
+  margin: 0 5px;
 }
 .movieDetail .detailCard p:first-child {
   font-weight: 600;
