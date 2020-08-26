@@ -10,10 +10,17 @@ import (
 )
 
 // New creates a new wrapper for the mongo-go-driver.
-func New(connection, dbname string) (*TenDatabase, error) {
+func New(connection, dbname,username,password string) (*TenDatabase, error) {
+	opts := &options.ClientOptions{}
+	opts.SetAuth(options.Credential{
+		AuthMechanism: "SCRAM-SHA-1",
+		AuthSource:    "users_db",
+		Username:      username,
+		Password:      password})
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(connection))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(connection), opts)
 	if err != nil {
 		return nil, err
 	}

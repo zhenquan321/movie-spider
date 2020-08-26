@@ -12,8 +12,12 @@ type Configuration struct {
 		ResponseHeaders map[string]string
 	}
 	Database struct {
-		Dbname     string `default:""`
-		Connection string `default:""`
+		Dbname        string `default:""`
+		Connection    string `default:""`
+		Authmechanism string `default:""`
+		Authsource    string `default:""`
+		Username      string `default:""`
+		Password      string `default:""`
 	}
 }
 
