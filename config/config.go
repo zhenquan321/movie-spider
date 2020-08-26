@@ -8,7 +8,7 @@ import (
 type Configuration struct {
 	Server struct {
 		ListenAddr      string `default:""`
-		Port            int    `default:"80"`
+		Port            int    `default:"8081"`
 		ResponseHeaders map[string]string
 	}
 	Database struct {
