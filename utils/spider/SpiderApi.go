@@ -435,7 +435,7 @@ func Detail(id string, retry int) {
 func insteadMovie(_moviesInfo *model.Movie) {
 	//电影存储
 	conf := config.Get()
-	db, err := database.New(conf.Database.Connection, conf.Database.Dbname)
+	db, err := database.New(conf.Database.Connection, conf.Database.Dbname, conf.Database.Username, conf.Database.Password)
 	if err != nil {
 		log.Fatal(err)
 	}

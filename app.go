@@ -66,8 +66,8 @@ func main() {
 	fmt.Println("Starting TMA version", vInfo.Version+"@"+BuildDate)
 	rand.Seed(time.Now().UnixNano())
 	conf := config.Get()
-
-	db, err := database.New(conf.Database.Connection, conf.Database.Dbname)
+	log.Println(conf)
+	db, err := database.New(conf.Database.Connection, conf.Database.Dbname, conf.Database.Username, conf.Database.Password)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -78,6 +78,7 @@ func main() {
 	defer utils.CloseRedisDB()
 	//第一次启动检查爬虫
 	firstSpider()
+	spider.Create().Start()
 	// 启动定时爬虫任务
 	utils.TimingSpider(func() {
 		spider.Create().Start()
