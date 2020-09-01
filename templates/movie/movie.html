@@ -5,13 +5,13 @@
         <div class="allCount">
             共<span> {{.allCount}}/{{.allMoviesCount}}</span> 部
         </div>
-        <form class="form-inline" action="/movie" method="get">
+        <div class="form-inline">
             <div class="form-group">
-                <input type="text" name="keyword" style="border-radius: 5px;" class="form-control" value=""
-                    id="exampleInputAmount" placeholder="请输入搜索关键词">
-                <button type="submit" class="btn btn-primary">搜索</button>
+                <input type="text" name="keyword" style="border-radius: 5px;" class="form-control" value="{{.keyWords}}"
+                    id="searchInput" placeholder="请输入搜索关键词">
+                <button onclick="search()" class="btn btn-primary">搜索</button>
             </div>
-        </form>
+        </div>
     </div>
     <div class="selectHeader">
         <div id="movieTypeZiList"></div>
@@ -30,14 +30,6 @@
             </ul>
         </div>
     </div>
-    <!-- <div class="selectHeader">
-        <h4>类别</h4>
-        <div>
-            <ul>
-                <li><a class="active" href="">全部</a></li>
-            </ul>
-        </div>
-    </div> -->
 </div>
 
 <div class="movieList">
@@ -135,7 +127,13 @@
                 goUrl = goUrl + key + '=' + queryData[key] + "&";
             }
         }
+        console.log(goUrl);
         window.location.href = goUrl;
+    }
+
+    function search() {
+        var value = document.getElementById("searchInput").value;
+        this.goHref("keyWords", value);
     }
 </script>
 

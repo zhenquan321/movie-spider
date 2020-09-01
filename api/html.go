@@ -25,7 +25,7 @@ func (a *HtmlAPI) Movie(ctx *gin.Context) {
 		activeYear      int
 		selZiCategories int
 		selCategories   int
-		keyWords 		string
+		keyWords        string
 	)
 	page, _ = strconv.ParseInt(ctx.DefaultQuery("page", "0"), 10, 64)
 	start = page * 20
@@ -56,9 +56,10 @@ func (a *HtmlAPI) Movie(ctx *gin.Context) {
 	} else {
 		condition["typeId"] = 6
 	}
-	if keyWords {
-		condition["keyWords"] = keyWords
+	if keyWords != "" {
+		condition["name"] = primitive.Regex{Pattern: keyWords}
 	}
+
 	movies := a.DB.GetMovies(
 		&model.Paging{
 			Skip:      &start,
@@ -70,7 +71,7 @@ func (a *HtmlAPI) Movie(ctx *gin.Context) {
 	moviesCount := a.DB.CountMovie(condition)
 	allMoviesCount := a.DB.CountMovie(nil)
 
-	for i := 0; i < 20; i++ {
+	for i := 0; i < len(movies); i++ {
 		movies[i].StrID = movies[i].ID.Hex() /* 设置元素为 i + 100 */
 	}
 
@@ -84,6 +85,7 @@ func (a *HtmlAPI) Movie(ctx *gin.Context) {
 		"title":           "牛逼的电影全在这",
 		"movies":          movies,
 		"allCount":        moviesCount,
+		"keyWords":        keyWords,
 		"pageCount":       limit,
 		"page":            page,
 		"yearList":        yearList,
