@@ -25,11 +25,13 @@ func (a *HtmlAPI) Movie(ctx *gin.Context) {
 		activeYear      int
 		selZiCategories int
 		selCategories   int
+		keyWords 		string
 	)
 	page, _ = strconv.ParseInt(ctx.DefaultQuery("page", "0"), 10, 64)
 	start = page * 20
 	activeYear, _ = strconv.Atoi(ctx.DefaultQuery("activeYear", ""))
 	sort = ctx.DefaultQuery("sort", "updateTime")
+	keyWords = ctx.DefaultQuery("keyWords", "")
 	selZiCategories, _ = strconv.Atoi(ctx.DefaultQuery("selZiCategories", ""))
 	selCategories, _ = strconv.Atoi(ctx.DefaultQuery("selCategories", ""))
 
@@ -54,7 +56,9 @@ func (a *HtmlAPI) Movie(ctx *gin.Context) {
 	} else {
 		condition["typeId"] = 6
 	}
-
+	if keyWords {
+		condition["keyWords"] = keyWords
+	}
 	movies := a.DB.GetMovies(
 		&model.Paging{
 			Skip:      &start,
