@@ -20,17 +20,10 @@ go run .
 ```
 # Pro
 ```sh
-#守护进程启动
-supervisord -c /etc/supervisor/golang.conf 
 
-#查看与停止、重启
+go build app.go
 
-supervisorctl
-rixingyike  RUNNING  pid 5976, uptime 0:27:47
-> shutdown
-Really shut the remote supervisord process down y/N? y
-Shut down
-
+nohup ./app  </dev/null &>/dev/null & 
 
 ```
 
