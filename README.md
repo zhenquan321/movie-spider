@@ -31,3 +31,6 @@ nohup ./app  </dev/null &>/dev/null &
   service redisd stop
 - 查看
   ps -aux | grep redis
+
+#### mac -redis 
+- redis-server
