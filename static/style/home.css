@@ -124,7 +124,7 @@ body {
   height: 40px;
   display: inline-block;
   position: relative;
-  top: 2px;
+  top: -2px;
 }
 .logoDiv span {
   color: #6f6457;
