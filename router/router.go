@@ -56,7 +56,7 @@ func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Con
 	postM := g.Group("/movie")
 	{
 		postM.GET("", movieHandler.GetMovies)
-		postM.GET(":id", movieHandler.GetMovieByIDs)
+		postM.GET(":id", movieHandler.GetMovieByID)
 		postM.DELETE(":id", movieHandler.DeleteMovieByID)
 	}
 

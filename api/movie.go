@@ -36,6 +36,15 @@ func (a *MovieAPI) GetMovieByIDs(ctx *gin.Context) {
 	})
 }
 
+// GetMovieByIDs returns the movie by id
+func (a *MovieAPI) GetMovieByID(ctx *gin.Context) {
+	withID(ctx, "id", func(id primitive.ObjectID) {
+		ctx.JSON(200, a.DB.GetMovieByID(id))
+	})
+}
+
+
+
 // DeleteMovieByID deletes the movie by id
 func (a *MovieAPI) DeleteMovieByID(ctx *gin.Context) {
 	withID(ctx, "id", func(id primitive.ObjectID) {
