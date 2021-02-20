@@ -51,13 +51,15 @@ func (a *HtmlAPI) Movie(ctx *gin.Context) {
 	if activeYear > 0 {
 		condition["released"] = strconv.Itoa(activeYear)
 	}
-	if selZiCategories > 0 {
-		condition["typeId"] = selZiCategories
-	} else {
-		condition["typeId"] = 6
-	}
+	
 	if keyWords != "" {
 		condition["name"] = primitive.Regex{Pattern: keyWords}
+	}else{
+		if selZiCategories > 0 {
+			condition["typeId"] = selZiCategories
+		} else {
+			condition["typeId"] = 6
+		}
 	}
 
 	movies := a.DB.GetMovies(
